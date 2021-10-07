@@ -22,6 +22,11 @@ public class CarController : MonoBehaviour
         rb.MovePosition(transform.position - transform.forward * speed * Time.fixedDeltaTime);
     }
 
+    private void OnMouseDown()
+    {
+        
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.transform.CompareTag("turnRight") && turnRight)
@@ -40,6 +45,8 @@ public class CarController : MonoBehaviour
             rb.rotation = Quaternion.Euler(0, originRotationY + 90f, 0);
         else if (other.transform.CompareTag("turnLeft") && turnLeft)
             rb.rotation = Quaternion.Euler(0, originRotationY - 90f, 0);
+        else if (other.transform.CompareTag("RemoveTrigger"))
+            Destroy(gameObject);
     }
 
     private void RotateCar(float speedRotate, int direction = 1)
