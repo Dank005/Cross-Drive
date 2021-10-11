@@ -19,6 +19,11 @@ public class CanvasButtons : MonoBehaviour
         StartCoroutine(LoadScene("Game"));
     }
 
+    public void RestartGame()
+    {
+        StartCoroutine(LoadScene("Game"));
+    }
+
     public void SetPressedButton()
     {
         image.sprite = buttonPressed;

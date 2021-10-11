@@ -457,6 +457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 15
+  force: 70
   turnRight: 0
   turnLeft: 0
   moveUp: 0

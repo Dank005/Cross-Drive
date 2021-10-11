@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CarController : MonoBehaviour
 {
-    public float speed = 15f;
+    public float speed = 15f, force = 50f;
     public bool turnRight, turnLeft, moveUp;
     public LayerMask carsLayer;
 
@@ -13,13 +13,15 @@ public class CarController : MonoBehaviour
     private float originRotationY;
     private float rotateMultRight = 6f;
     private float rotateMultLeft = 4.5f;
-    private bool isMovingFast;
+    private bool isMovingFast, carCrashed;
 
     public GameObject signalLeft;
     public GameObject signalRight;
 
-    [NonSerialized]public bool carPass;
+    [NonSerialized] public bool carPass;
+    [NonSerialized] public static bool isLose;
 
+    [NonSerialized] public static int countCars;
 
     private void Start()
     {
@@ -74,8 +76,23 @@ public class CarController : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Car") && !carCrashed)
+        {
+            isLose = true;            
+            collision.gameObject.GetComponent<CarController>().speed = 0f;
+            rb.AddRelativeForce(Vector3.back * force * speed);
+            speed = 0f;
+            carCrashed = true;
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
+        if (carCrashed)
+            return;
+
         if (other.transform.CompareTag("turnRight") && turnRight)
         {
             RotateCar(rotateMultRight);
@@ -96,14 +113,22 @@ public class CarController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (carCrashed)
+            return;
+
         if (other.transform.CompareTag("Trigger Pass"))
         {
+            if (carPass)
+                return;
+
             carPass = true;
             Collider[] colliders = GetComponents<BoxCollider>();
             foreach (Collider col in colliders)
                 col.enabled = true;
+
+            countCars++;
         }
-            
+
 
         if (other.transform.CompareTag("turnRight") && turnRight)
             rb.rotation = Quaternion.Euler(0, originRotationY + 90f, 0);
@@ -115,6 +140,9 @@ public class CarController : MonoBehaviour
 
     private void RotateCar(float speedRotate, int direction = 1)
     {
+        if (isLose)
+            return;
+
         if (direction == -1 && transform.localRotation.eulerAngles.y < originRotationY - 90f)
             return;
 

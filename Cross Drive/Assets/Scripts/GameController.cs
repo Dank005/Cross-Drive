@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -10,13 +11,44 @@ public class GameController : MonoBehaviour
     public GameObject[] cars;
 
     private int countCars;
+    private Coroutine bottomCars, leftCars, upCars, rightCars;
+    private bool isLoseOnce;
+
+    public GameObject canvas;
+    public Text nowScore, topScore, coinsCount;
 
     private void Start()
     {
-        StartCoroutine(BottomCars());
-        StartCoroutine(LeftCars());
-        StartCoroutine(RightCars());
-        StartCoroutine(UpCars());
+        CarController.isLose = false;
+        CarController.countCars = 0;
+
+        bottomCars = StartCoroutine(BottomCars());
+        leftCars = StartCoroutine(LeftCars());
+        rightCars = StartCoroutine(RightCars());
+        upCars = StartCoroutine(UpCars());
+    }
+
+    private void Update()
+    {
+        if (CarController.isLose && !isLoseOnce)
+        {
+            StopCoroutine(bottomCars);
+            StopCoroutine(leftCars);
+            StopCoroutine(upCars);
+            StopCoroutine(rightCars);
+
+            nowScore.text = "<color=#FF0000>Score:</color>" + CarController.countCars;
+            if (PlayerPrefs.GetInt("Score") < CarController.countCars)
+            {
+                PlayerPrefs.SetInt("Score", CarController.countCars);
+            }
+            topScore.text = "<color=#FF0000>Top:</color>" + PlayerPrefs.GetInt("Score");
+
+            PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + CarController.countCars);
+            coinsCount.text = PlayerPrefs.GetInt("Coins").ToString();
+            canvas.SetActive(true);
+            isLoseOnce = true;
+        }
     }
 
     IEnumerator BottomCars()
