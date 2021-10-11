@@ -466,6 +466,8 @@ MonoBehaviour:
     m_Bits: 128
   signalLeft: {fileID: 6122863384300804008}
   signalRight: {fileID: 3873631774779634868}
+  explosion: {fileID: 191186, guid: 079954accd64b32419ec069129c81273, type: 3}
+  exhaust: {fileID: 1998766811820298, guid: 6df1b0079f73347d6bf4b9735c8a527c, type: 3}
 --- !u!65 &7466733383552761939
 BoxCollider:
   m_ObjectHideFlags: 0

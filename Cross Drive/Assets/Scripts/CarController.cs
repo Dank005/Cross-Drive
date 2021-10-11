@@ -17,11 +17,14 @@ public class CarController : MonoBehaviour
 
     public GameObject signalLeft;
     public GameObject signalRight;
+    public GameObject explosion;
+    public GameObject exhaust;
 
     [NonSerialized] public bool carPass;
     [NonSerialized] public static bool isLose;
 
     [NonSerialized] public static int countCars;
+
 
     private void Start()
     {
@@ -70,6 +73,8 @@ public class CarController : MonoBehaviour
             if (Input.GetTouch(0).phase == TouchPhase.Began && !isMovingFast && gameObject.name == carName)
             {
 #endif
+                GameObject vfx = Instantiate(exhaust, new Vector3(transform.position.x, transform.position.y+1.5f, transform.position.z),  Quaternion.Euler(90,0,0));
+                Destroy(vfx, 2f);
                 speed *= 2;
                 isMovingFast = true;
             }
@@ -85,6 +90,8 @@ public class CarController : MonoBehaviour
             rb.AddRelativeForce(Vector3.back * force * speed);
             speed = 0f;
             carCrashed = true;
+            GameObject vfx = Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(vfx, 5f);
         }
     }
 
