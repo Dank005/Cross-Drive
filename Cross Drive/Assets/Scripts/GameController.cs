@@ -9,6 +9,8 @@ public class GameController : MonoBehaviour
     public float timeToSpawnTo = 4f;
     public GameObject[] cars;
 
+    private int countCars;
+
     private void Start()
     {
         StartCoroutine(BottomCars());
@@ -60,6 +62,7 @@ public class GameController : MonoBehaviour
     void SpawnCar(Vector3 position, float rotationY, bool isMoveFromUp = false)
     {
         GameObject newObj = Instantiate(cars[Random.Range(0, cars.Length)], position, Quaternion.Euler(0, rotationY, 0));
+        newObj.name = "Car - " + ++countCars;
         int random = isMainScene ? 1 : Random.Range(1, 4);
         if (isMainScene)
             newObj.GetComponent<CarController>().speed = 15f;

@@ -52,7 +52,7 @@ MonoBehaviour:
     overrideState: 0
     value: 1
   temperature:
-    overrideState: 1
+    overrideState: 0
     value: 14
   tint:
     overrideState: 0
@@ -1332,13 +1332,13 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0.09433961, g: 0.08499465, b: 0.08499465, a: 1}
+    value: {r: 1, g: 1, b: 1, a: 1}
   center:
     overrideState: 0
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.466
+    value: 0.477
   smoothness:
     overrideState: 0
     value: 0.2
