@@ -16,7 +16,12 @@ public class CanvasButtons : MonoBehaviour
 
     public void PlayGame()
     {
-        StartCoroutine(LoadScene("Game"));
+        if (PlayerPrefs.GetString("First Game") == "No")
+            StartCoroutine(LoadScene("Game"));
+        else
+        {
+            StartCoroutine(LoadScene("Study"));
+        }
     }
 
     public void RestartGame()
